@@ -8,8 +8,8 @@ figure; imshow(img);
 
 %% interactively select f families of segments that are images of 3D parallel lines (DEBUG PURPOSES)
  
-% f = 2; % number of families of parallel lines
-% numSegmentsPerFamily = 3;
+% f = 1; % number of families of parallel lines
+% numSegmentsPerFamily = 1;
 % parallelLines =cell(f,1); % store parallel lines
 % fprintf(['Draw ', num2str(f) , ' families of parallel segments\n']);
 % col = 'rgbm';
@@ -60,9 +60,11 @@ end
 imLinfty = cross([V(1,1) V(2,1) 1], [V(1,2) V(2,2) 1]);
 
 imLinfty = imLinfty./(imLinfty(3));
-
+disp(imLinfty);
 figure;
 hold all;
+col(1) = "g";
+col(2) = "r";
 for i = 1:f
     plot(V(1,i),V(2,i),'o','Color',col(i),'MarkerSize',20,'MarkerFaceColor',col(i));
 end
@@ -78,7 +80,7 @@ disp(inv(H)'*imLinfty');
 
 %% rectify the image and show the result
 tform = projective2d(H');
-J = imwarp(img,tform);
+J = imwarp(img,tform,'OutputView',imref2d(size(img)*4));
 
 figure;
 imshow(J);
